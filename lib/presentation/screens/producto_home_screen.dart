@@ -3,6 +3,7 @@ import 'package:app_movil/dominio/models/producto.dart';
 import 'package:app_movil/presentation/screens/producto_registrar_screen.dart';
 import 'package:app_movil/presentation/widgets/app_bar.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ProductoHomeScreen extends StatefulWidget {
   const ProductoHomeScreen({super.key});
@@ -78,10 +79,23 @@ class _ProductoHomeScreenState extends State<ProductoHomeScreen> {
                                     Text(
                                         'Cantidad :${filterItems[index].quiantity}'),
                                     Text(
-                                        'Estado : ${filterItems[index].state}'),
+                                      'Estado : ${filterItems[index].state ? 'Activo' : 'Inactivo'}',
+                                    ),
+                                    Text(
+                                      'Fecha de vencimiento: ${DateFormat('dd-MM-yyyy').format(filterItems[index].expirationDate)}',
+                                    ),
                                   ],
                                 ),
                                 actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          productos.remove(filterItems[index]);
+                                          filterItems = productos;
+                                        });
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('Eliminar')),
                                   TextButton(
                                       onPressed: () {
                                         Navigator.pop(context);
@@ -98,13 +112,17 @@ class _ProductoHomeScreenState extends State<ProductoHomeScreen> {
                             //Image.file(File(filterItems[index].photo),),
                             //para el navegador
                             Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Image.network(
-                                filterItems[index].image,
-                                height: 70,
-                                fit: BoxFit.fill,
-                              ),
-                            ),
+                                padding: const EdgeInsets.all(8.0),
+                                child: Container(
+                                  width: 70,
+                                  height: 70,
+                                  child: Image.network(
+                                    filterItems[index].image,
+                                    width: 70,
+                                    height: 70,
+                                    fit: BoxFit.fill,
+                                  ),
+                                )),
                           ],
                         ),
                       ),

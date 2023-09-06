@@ -85,6 +85,7 @@ class _ProductoRegistadoScreenState extends State<ProductoRegistadoScreen> {
                         var newProducto = Product(
                             name: _nameController.text,
                             description: _descriptionController.text,
+                            quiantity: double.parse(_quiantityController.text) ?? 0.0,
                             image: image);
 
                         productos.add(newProducto);
