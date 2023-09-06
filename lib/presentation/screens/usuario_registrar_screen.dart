@@ -39,8 +39,8 @@ class _RegistrarUsuarioScreenState extends State<RegistrarUsuarioScreen> {
 
   void verfificarExitencia() {
     final nombreUsuario = _userController.text;
-    final password=_passwordController.text;
-    final confirmPassword= _confirmPassContraoller.text;
+    final password = _passwordController.text;
+    final confirmPassword = _confirmPassContraoller.text;
     if (usuarioExistente(nombreUsuario)) {
       showDialog(
           context: context,
@@ -57,8 +57,8 @@ class _RegistrarUsuarioScreenState extends State<RegistrarUsuarioScreen> {
               ],
             );
           });
-    } else if(password != confirmPassword){
-       showDialog(
+    } else if (password != confirmPassword) {
+      showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
@@ -73,8 +73,8 @@ class _RegistrarUsuarioScreenState extends State<RegistrarUsuarioScreen> {
               ],
             );
           });
-    }else if(image.isEmpty){
-       showDialog(
+    } else if (image.isEmpty) {
+      showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
@@ -89,18 +89,31 @@ class _RegistrarUsuarioScreenState extends State<RegistrarUsuarioScreen> {
               ],
             );
           });
-    }else {
+    } else {
       var newUsuario = Usuario(
           user: nombreUsuario,
           password: _passwordController.text,
           image: image);
       usuarios.add(newUsuario);
+      showDialog(
+        context: context,
+        builder: (context) {
+          Future.delayed(Duration(seconds: 1), () {
+            Navigator.of(context)
+                .pop(); // Cierra el diálogo después de 2 segundos
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const LoginScreen(),
+              ),
+            ); // Redirige al usuario al inicio de sesión
+          });
 
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
-        ),
+          return AlertDialog(
+            title: const Text("Éxito", style: TextStyle(color: Colors.green)),
+            content: Text("Usuario registrado"),
+          );
+        },
       );
     }
   }
@@ -109,63 +122,64 @@ class _RegistrarUsuarioScreenState extends State<RegistrarUsuarioScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-    padding: const EdgeInsets.all(12.0),
-    child: Form(
-      key: _formKey,
-      child: ListView(
-        children: [
-          Row(
+        padding: const EdgeInsets.all(12.0),
+        child: Form(
+          key: _formKey,
+          child: ListView(
             children: [
-              IconButton(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginScreen(),
+              Row(
+                children: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const LoginScreen(),
+                        ),
+                      );
+                    },
+                    icon: Icon(Icons.arrow_back),
+                  ),
+                  SizedBox(
+                    width: 50,
+                  ),
+                  const Text(
+                    "Registro Usuario",
+                    style: TextStyle(
+                      fontSize: 22,
                     ),
-                  );
-                },
-                icon: Icon(Icons.arrow_back),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
               ),
-              SizedBox(width: 50,),
-              const Text(
-                "Registro Usuario",
-                style: TextStyle(
-                  fontSize: 22,
-                ),
-                textAlign: TextAlign.center,
+              const SizedBox(
+                height: 34,
               ),
-            ],
-          ),
-          const SizedBox(
-            height: 34,
-          ),
-               if (image.isEmpty)
-                ClipOval(
-                  child: Image.asset("assets/images/avatar.png",
-                      width: 80, height: 300, fit: BoxFit.cover),
-                ),
+              if (image.isEmpty)
+                CircleAvatar(
+                    radius: 150,
+                    backgroundImage: AssetImage(
+                      "assets/images/avatar.png",
+                    )),
               if (image.isNotEmpty)
-                ClipOval(
-                  child: Image.file(
-                    File(
-                      image,
-                    ),
-                    width: 70,
-                    height: 300,
-                    fit: BoxFit.cover,
+                CircleAvatar(
+                  radius:
+                      150, // Ajusta el valor del radio según tus necesidades
+                  backgroundImage: FileImage(
+                    File(image),
                   ),
                 ),
-              
-                SizedBox(height: 23,),
+              SizedBox(
+                height: 23,
+              ),
               ElevatedButton(
                 onPressed: _pickImage,
-                style: ElevatedButton.styleFrom(
-                  fixedSize: const Size(9, 50)
-                ),
+                style: ElevatedButton.styleFrom(fixedSize: const Size(9, 50)),
                 child: const Text('Selecciona foto'),
               ),
-              SizedBox(height: 12,),
+              SizedBox(
+                height: 12,
+              ),
               TextFormField(
                 decoration: const InputDecoration(labelText: "Nombre"),
                 controller: _userController,
@@ -175,33 +189,42 @@ class _RegistrarUsuarioScreenState extends State<RegistrarUsuarioScreen> {
                   }
                 },
               ),
-              SizedBox(height: 12,),
+              SizedBox(
+                height: 12,
+              ),
               TextFormField(
                 decoration: const InputDecoration(labelText: "Contraseña"),
                 controller: _passwordController,
+                obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Porfavor ingrese la contraseña";
                   }
                 },
               ),
-              SizedBox(height: 12,),
+              SizedBox(
+                height: 12,
+              ),
               TextFormField(
-                decoration: const InputDecoration(labelText: "Confirmar contraseña"),
+                decoration:
+                    const InputDecoration(labelText: "Confirmar contraseña"),
                 controller: _confirmPassContraoller,
+                obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Porfavor verifique la contraseña";
                   }
                 },
               ),
-              SizedBox(height: 23,),
+              SizedBox(
+                height: 23,
+              ),
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    if(_formKey.currentState!.validate()){
-                    verfificarExitencia();
+                    if (_formKey.currentState!.validate()) {
+                      verfificarExitencia();
                     }
                   },
                   child: const Text('Registrar'),
