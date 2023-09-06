@@ -36,7 +36,7 @@ import 'package:flutter/material.dart';
         useMaterial3: true,
         colorScheme:  currentTheme
         ),
-        home : const HomeScreen(),
+        home : const LoginScreen(),
      );
    }
  }
