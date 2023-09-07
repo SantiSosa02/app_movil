@@ -30,6 +30,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -37,6 +38,7 @@ dependencies:
   cupertino_icons: ^1.0.2
   image_picker: ^1.0.4
   carousel_slider: ^4.2.1
+  intl: ^0.18.1
 
 dev_dependencies:
   flutter_test:
@@ -68,6 +70,7 @@ flutter:
     - assets/images/cafe.jpeg
     - assets/images/fresas.jpeg
     - assets/images/tomastes.jpeg
+    - assets/images/food_home/food.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -85,6 +88,10 @@ flutter:
     - family: Caprismo
       fonts:
         - asset: fonts/Caprasimo-Regular.ttf
+
+    - family: Inter
+      fonts:
+        - asset: fonts/Inter-Black.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
   #   - family: Trajan Pro

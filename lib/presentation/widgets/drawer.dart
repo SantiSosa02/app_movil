@@ -1,3 +1,4 @@
+import 'package:app_movil/presentation/screens/food_screen.dart';
 import 'package:app_movil/presentation/screens/login_screen.dart';
 import 'package:app_movil/presentation/screens/home_screen.dart';
 import 'package:app_movil/presentation/screens/usuario_screen.dart';
@@ -97,7 +98,7 @@ class MenuDrawer extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
+                    builder: (context) => const FoodHome(),
                   ),
                 );
               },
