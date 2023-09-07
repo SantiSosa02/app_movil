@@ -1,5 +1,6 @@
 import 'package:app_movil/dominio/models/imagenes.dart';
 import 'package:app_movil/dominio/models/usuario.dart';
+import 'package:app_movil/presentation/screens/producto_home_screen.dart';
 import 'package:app_movil/presentation/screens/producto_registrar_screen.dart';
 import 'package:app_movil/presentation/screens/usuario_screen.dart';
 import 'package:app_movil/presentation/widgets/app_bar.dart';
@@ -17,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return   Scaffold(
+    return Scaffold(
       appBar: const AppBarMenu(title: "NutriSabor"),
       drawer: const MenuDrawer(),
       body: Column(
@@ -62,8 +63,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         borderRadius: BorderRadius.circular(10)),
                     child: IconButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const ProductoRegistadoScreen(),
-                        ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const ProductoHomeScreen(),
+                          ),
                         );
                       },
                       icon: const Icon(
@@ -84,50 +88,52 @@ class _HomeScreenState extends State<HomeScreen> {
                         borderRadius: BorderRadius.circular(10)),
                     child: IconButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                        const HomeScreen(),
-                        ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HomeScreen(),
+                          ),
                         );
                       },
-                      icon: const Icon(
-                        Icons.calendar_month,
-                        size: 50,
-                        color: Colors.black
-                      ),
+                      icon: const Icon(Icons.calendar_month,
+                          size: 50, color: Colors.black),
                     ),
                   ),
                   const Text('A vencer')
                 ],
-                
               ),
-              
             ],
-            
           ),
-          const SizedBox(height: 84,),
+          const SizedBox(
+            height: 84,
+          ),
           CarouselSlider(
-          options: CarouselOptions(
-            autoPlay: true,
-            aspectRatio: 2.0,
-            enlargeCenterPage: true,
+            options: CarouselOptions(
+              autoPlay: true,
+              aspectRatio: 2.0,
+              enlargeCenterPage: true,
+            ),
+            items: imageSliders,
           ),
-          items: imageSliders,
-        ),
-        const SizedBox(height: 86,),
-        Container(   
-          width: 393,
-          height: 290,
-          color: const Color.fromARGB(255, 85, 80, 80),
-          child:const Center(
-            child: Padding(
-      padding: EdgeInsets.all(16.0),
-          child: Text("¡Bienvenidos! Aquí, promovemos la sostenibilidad y la igualdad a través de la comida, alineados con los Objetivos de Desarrollo Sostenible de la ONU. Cada bocado cuenta en la construcción de un futuro mejor. Únete a nosotros en la revolución de la comida sostenible.",
-          style: TextStyle(color:Colors.white,
-          fontSize: 20,),
+          const SizedBox(
+            height: 86,
           ),
-          ),
-        )
-        ),
+          Container(
+              width: 393,
+              height: 290,
+              color: const Color.fromARGB(255, 85, 80, 80),
+              child: const Center(
+                child: Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    "¡Bienvenidos! Aquí, promovemos la sostenibilidad y la igualdad a través de la comida, alineados con los Objetivos de Desarrollo Sostenible de la ONU. Cada bocado cuenta en la construcción de un futuro mejor. Únete a nosotros en la revolución de la comida sostenible.",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                  ),
+                ),
+              )),
         ],
       ),
     );

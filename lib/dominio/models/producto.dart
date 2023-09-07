@@ -8,12 +8,12 @@ class Product {
   String image;
   DateTime expirationDate;
 
-  Product(
-      {required this.name,
-      required this.description,
-      required this.quiantity,
-      required this.image,
-      DateTime? expirationDate,
-      }) : expirationDate = expirationDate ?? DateTime.now().add(Duration(days: 30));
-      
+  Product({
+    required this.name,
+    required this.description,
+    required this.quiantity,
+    required this.image,
+    DateTime? expirationDate,
+  }) : expirationDate =
+            expirationDate ?? DateTime.now().add(Duration(days: 30));
 }

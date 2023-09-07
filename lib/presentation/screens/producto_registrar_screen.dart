@@ -35,13 +35,55 @@ class _ProductoRegistadoScreenState extends State<ProductoRegistadoScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const AppBarMenu(title: 'Registrar Producto'),
+      appBar: const AppBarMenu(
+        title: 'Registrar Producto',
+      ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Form(
           key: _formKey,
           child: ListView(
             children: [
+              if (image.isNotEmpty)
+                Column(
+                  children: [
+                    CircleAvatar(
+                      radius: 150,
+                      backgroundImage: Image.network(
+                        image,
+                        width: 300,
+                        height: 300,
+                      ).image,
+                    ),
+                    const SizedBox(
+                      height: 34,
+                    ),
+                    ElevatedButton(
+                      onPressed: _pickImage,
+                      style: ElevatedButton.styleFrom(),
+                      child: const Text('Selecciona foto'),
+                    ),
+                  ],
+                ),
+              if (image.isEmpty)
+                Column(
+                  children: [
+                    CircleAvatar(
+                      radius: 150,
+                      backgroundImage: AssetImage(
+                        "assets/images/avatar.png",
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 34,
+                    ),
+                    ElevatedButton(
+                      onPressed: _pickImage,
+                      style: ElevatedButton.styleFrom(),
+                      child: const Text('Selecciona foto'),
+                    ),
+                  ],
+                ),
               TextFormField(
                 decoration: const InputDecoration(labelText: 'nombre'),
                 controller: _nameController,
@@ -57,7 +99,7 @@ class _ProductoRegistadoScreenState extends State<ProductoRegistadoScreen> {
                 controller: _descriptionController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'ingrese una descripción del producto';
+                    return 'Ingrese una descripción del producto';
                   }
                   return null;
                 },
@@ -68,40 +110,40 @@ class _ProductoRegistadoScreenState extends State<ProductoRegistadoScreen> {
                 controller: _quiantityController,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return 'Ingresar la cantidad del producto';
+                    return 'Ingrese la cantidad del producto';
                   }
                   return null;
                 },
               ),
-              ElevatedButton(
-                  onPressed: _pickImage,
-                  child: const Text('Seleccionar una imagen')),
-              if (image.isNotEmpty) Image.network(image),
               Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        var newProducto = Product(
-                            name: _nameController.text,
-                            description: _descriptionController.text,
-                            quiantity: double.parse(_quiantityController.text) ?? 0.0,
-                            image: image);
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      var newProducto = Product(
+                        name: _nameController.text,
+                        description: _descriptionController.text,
+                        quiantity:
+                            double.parse(_quiantityController.text) ?? 0.0,
+                        image: image,
+                      );
 
-                        productos.add(newProducto);
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ProductoHomeScreen(),
-                            ));
+                      productos.add(newProducto);
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProductoHomeScreen(),
+                        ),
+                      );
 
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Registro seguro')),
-                        );
-                      }
-                    },
-                    child: const Text('Registrar')),
-              )
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Registro seguro')),
+                      );
+                    }
+                  },
+                  child: const Text('Registrar'),
+                ),
+              ),
             ],
           ),
         ),
