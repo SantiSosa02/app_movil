@@ -75,7 +75,7 @@ class _FoodHomeState extends State<FoodHome> {
                     controller: _searchController,
                     decoration: InputDecoration(
                       floatingLabelBehavior: FloatingLabelBehavior.never,
-                      labelText: 'Buscar alimentos',
+                      labelText: 'Busca alimentos',
                       prefixIcon: const Icon(Icons.search),
                       filled: true, // Rellenar el fondo del campo de texto
                       fillColor: Colors.white,
@@ -96,79 +96,6 @@ class _FoodHomeState extends State<FoodHome> {
                   ),
                 ),
               ),
-               Expanded(
-            child: ListView.builder(
-              itemCount: filterItems.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Card(
-                  child: ListTile(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: Text('${filterItems[index].name}'),
-                            content: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.network(
-                                  filterItems[index].image,
-                                  width: 100,
-                                  height: 100,
-                                  fit: BoxFit.cover,
-                                ),
-                                const SizedBox(height: 20),
-                                Text('Nombre : ${filterItems[index].name}'),
-                                Text(
-                                    'Descripción : ${filterItems[index].description}'),
-                                Text(
-                                    'Cantidad :${filterItems[index].quantity}'),
-                              
-                                Text(
-                                  'Estado : ${filterItems[index].state ? 'Activo' : 'Inactivo'}',
-                                ),
-                                Text(
-                                  'Fecha de vencimiento: ${DateFormat('dd-MM-yyyy').format(filterItems[index].expDate)}',
-                                ),
-                              ],
-                            ),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                child: Text('Cerrar'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                    title: Text(filterItems[index].name),
-                    subtitle: Text(
-                      'Descripción: ${filterItems[index].description}\nCantidad: ${filterItems[index].quantity}',
-                    ),
-                    leading: Image.network(
-                      filterItems[index].image,
-                      width: 70,
-                      height: 70,
-                      fit: BoxFit.cover,
-                    ),
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete_forever),
-                      onPressed: () {
-                        setState(() {
-                          foods.remove(filterItems[index]);
-                          filterItems = foods;
-                        });
-                      },
-                    ),
-                  ),
-                );
-              },
-            ),
-          )
-
             ],
           ),
 
@@ -177,53 +104,105 @@ Expanded(
   child: ListView.builder(
     itemCount: filterItems.length,
     itemBuilder: (BuildContext context, int index) {
-      return Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(8.0),
-          border: Border.all(
-            color: Colors.grey, 
-            width: 1.0, 
-          ),
-        ),
-        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Row(
-            children: [
-              Image.file(
-                File(filterItems[index].image),
-                height: 70,
-                width: 70,
-                fit: BoxFit.cover,
-              ),
-              SizedBox(width: 10), 
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '${filterItems[index].name}',
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      return GestureDetector(
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('${filterItems[index].name}'),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.file(
+                      File(filterItems[index].image),
+                      height: 100,
+                      width: 100,
+                      fit: BoxFit.cover,
+                    ),
+                    const SizedBox(height: 20),
+                    Text('Nombre: ${filterItems[index].name}'),
+                    Text('Descripción: ${filterItems[index].description}'),
+                    Text('Cantidad: ${filterItems[index].quantity}'),
+                    Text(
+                      'Fecha de vencimiento: ${DateFormat('yyyy/MM/dd').format(filterItems[index].expDate)}',
+                    ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Cerrar'),
                   ),
-                  Text('Descripción: ${filterItems[index].description}'),
-                  Text('Cantidad: ${filterItems[index].quantity}'),
-                  Text(
-                    'Fecha de vencimiento: ${DateFormat('yyyy/MM/dd').format(filterItems[index].expDate)}',
+                  TextButton(
+                    onPressed: () {
+                      // Aquí puedes agregar la lógica para eliminar el elemento
+                      setState(() {
+                        // Eliminar el elemento de la lista
+                        foods.remove(filterItems[index]);
+                        // Actualizar la lista de elementos filtrados
+                        filterItems = foods;
+                      });
+                      Navigator.pop(context); // Cerrar el AlertDialog
+                    },
+                    child: Text('Eliminar', style: TextStyle(
+                      color:Colors.red),
+                      ),
                   ),
                 ],
-              ),
-            ],
+              );
+            },
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            border: Border.all(
+              color: Colors.grey,
+              width: 1.0,
+            ),
+          ),
+          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Row(
+              children: [
+                Image.file(
+                  File(filterItems[index].image),
+                  height: 70,
+                  width: 70,
+                  fit: BoxFit.cover,
+                ),
+                SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${filterItems[index].name}',
+                      style: TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    Text('Descripción: ${filterItems[index].description}'),
+                    Text('Cantidad: ${filterItems[index].quantity}'),
+                    Text(
+                      'Fecha de vencimiento: ${DateFormat('yyyy/MM/dd').format(filterItems[index].expDate)}',
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       );
     },
   ),
-  
 ),
-//FINAL CARD 
 
+//FINAL CARD
         ],
       ),
-      
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.push(
