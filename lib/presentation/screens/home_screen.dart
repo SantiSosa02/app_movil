@@ -1,10 +1,13 @@
 import 'package:app_movil/dominio/models/imagenes.dart';
 import 'package:app_movil/dominio/models/usuario.dart';
+import 'package:app_movil/presentation/screens/food_screen.dart';
 import 'package:app_movil/presentation/screens/usuario_screen.dart';
 import 'package:app_movil/presentation/widgets/app_bar.dart';
 import 'package:app_movil/presentation/widgets/drawer.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+
+import 'alimentos_a_vencer_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -86,7 +89,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const HomeScreen(),
+                            builder: (context) => const AlimentosAVencer(),
                           ),
                         );
                       },
