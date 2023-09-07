@@ -1,5 +1,6 @@
 import 'package:app_movil/dominio/models/imagenes.dart';
 import 'package:app_movil/dominio/models/usuario.dart';
+import 'package:app_movil/presentation/screens/food_screen.dart';
 import 'package:app_movil/presentation/screens/usuario_screen.dart';
 import 'package:app_movil/presentation/widgets/app_bar.dart';
 import 'package:app_movil/presentation/widgets/drawer.dart';
@@ -61,8 +62,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         borderRadius: BorderRadius.circular(10)),
                     child: IconButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen(),
-                        ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const FoodHome(),
+                          ),
                         );
                       },
                       icon: const Icon(
