@@ -96,6 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: TextFormField(
                 decoration: const InputDecoration(labelText: "Contraseña"),
                 controller: _passwordController,
+                obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Porfavor ingrese el nombre";

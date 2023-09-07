@@ -67,16 +67,24 @@ class _UsuarioHomeState extends State<UsuarioHome> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Container(
-                            height: 90,
+                            height: 150,
+                            width: 200,
                             child: Image.file(
-                              File(filterItems[index].image),
+                              File(filterItems[index].image,),
+                              fit: BoxFit.cover,
+                              
+                              
                             ),
                           ),
                           const SizedBox(
                             height: 20,
                           ),
-                          Text('${filterItems[index].user} '),
-                          Text(' ${filterItems[index].password}')
+                          Text('${filterItems[index].user} ',style: TextStyle(
+                            fontSize: 18
+                          ),),
+                          Text(' ${filterItems[index].password}',style: TextStyle(
+                            fontSize: 18
+                          ),)
                         ],
                       ),
                       actions: [
@@ -108,7 +116,8 @@ class _UsuarioHomeState extends State<UsuarioHome> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         '${filterItems[index].user}  ',
-                        style: const TextStyle(color: Colors.black),
+                        style: const TextStyle(color: Colors.black,
+                        fontSize: 18),
                       ),
                     ),
                     IconButton(
@@ -128,7 +137,8 @@ class _UsuarioHomeState extends State<UsuarioHome> {
                                         Navigator.pop(context);
                                         
                                       },
-                                      child: const Text("Cerrar"))
+                                      child: const Text("Cerrar"),
+                                      ),
                                 ],
                               );
                             });

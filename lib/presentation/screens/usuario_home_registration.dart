@@ -95,25 +95,25 @@ final _formKey = GlobalKey<FormState>();
           image: image);
       usuarios.add(newUsuario);
       showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: const Text("Exito"),
-              content: Text("Usuario registrado"),
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context)=>
-                      const UsuarioHome(),
-                      ),
-                      );
-                    },
-                    child: const Text("Cerrar"))
-              ],
-            );
+        context: context,
+        builder: (context) {
+          Future.delayed(Duration(seconds: 1), () {
+            Navigator.of(context)
+                .pop(); // Cierra el diálogo después de 2 segundos
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const UsuarioHome(),
+              ),
+            ); // Redirige al usuario al inicio de sesión
           });
 
-      
+          return AlertDialog(
+            title: const Text("Éxito", style: TextStyle(color: Colors.green)),
+            content: Text("Usuario registrado"),
+          );
+        },
+      );
     }
   }
 
@@ -138,19 +138,17 @@ final _formKey = GlobalKey<FormState>();
                 height: 34,
               ),
               if (image.isEmpty)
-                ClipOval(
-                  child: Image.asset("assets/images/avatar.png",
-                      width: 80, height: 300, fit: BoxFit.cover),
-                ),
+                CircleAvatar(
+                    radius: 150,
+                    backgroundImage: AssetImage(
+                      "assets/images/avatar.png",
+                    )),
               if (image.isNotEmpty)
-                ClipOval(
-                  child: Image.file(
-                    File(
-                      image,
-                    ),
-                    width: 70,
-                    height: 300,
-                    fit: BoxFit.cover,
+                CircleAvatar(
+                  radius:
+                      150, // Ajusta el valor del radio según tus necesidades
+                  backgroundImage: FileImage(
+                    File(image),
                   ),
                 ),
                 const SizedBox(height: 34,),
@@ -175,6 +173,7 @@ final _formKey = GlobalKey<FormState>();
               TextFormField(
                 decoration: const InputDecoration(labelText: "Contraseña"),
                 controller: _passwordController,
+                obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Porfavor ingrese la contraseña";
@@ -185,6 +184,7 @@ final _formKey = GlobalKey<FormState>();
               TextFormField(
                 decoration: const InputDecoration(labelText: "Confirmar contraseña"),
                 controller: _confirmPassContraoller,
+                obscureText: true,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return "Porfavor verifique la contraseña";
