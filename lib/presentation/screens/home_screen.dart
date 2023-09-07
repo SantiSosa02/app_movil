@@ -64,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         borderRadius: BorderRadius.circular(10)),
                     child: IconButton(
                       onPressed: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeScreen(),
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => const FoodHome(),
                         ),
                         );
                       },
