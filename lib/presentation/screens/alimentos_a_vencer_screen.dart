@@ -52,40 +52,46 @@ class _AlimentosAVencerState extends State<AlimentosAVencer> {
       body: Column(
         children: [
           Stack(
-            children: [
-              // Imagen de fondo
-              Image.asset(
-                'assets/images/vencimiento.png',
-                fit: BoxFit.cover,
-                height: 180.0,
-                width: double.infinity,
-              ),
-            
-              Padding(
-                padding: const EdgeInsets.all(2.0),
-                child: Container(
-                  height: 180.0,
-                  alignment: Alignment.center,
-                  child: const Text(
-                    'Alimentos próximos a vencer',
-                    style: TextStyle(
-                      fontSize: 30.0,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                      shadows: <Shadow>[
-                        Shadow(
-                          offset: Offset(0.0, 5.0),
-                          blurRadius: 45.0,
-                          color: Color.fromARGB(255, 129, 129, 129),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+  children: [
+    // Imagen de fondo con menor opacidad (0.6)
+    Opacity(
+      opacity: 0.9,
+      child: Image.asset(
+        'assets/images/alimentosFondo.jpg',
+        fit: BoxFit.cover,
+        height: 180.0,
+        width: double.infinity,
+      ),
+    ),
+    Positioned(
+      bottom: 0, // Alinea el contenedor en la parte inferior
+      left: 0,
+      right: 0,
+      child: Container(
+        height: 50.0, // Altura del contenedor que contiene el texto
+        color: Color.fromARGB(255, 11, 134, 44).withOpacity(0.5), // Fondo semi-transparente
+        alignment: Alignment.center,
+        child: const Text(
+          'Alimentos próximos a vencer',
+          style: TextStyle(
+            fontSize: 25.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+            shadows: <Shadow>[
+              Shadow(
+                offset: Offset(0.0, 5.0),
+                blurRadius: 45.0,
+                color: Color.fromARGB(255, 129, 129, 129),
               ),
             ],
           ),
-          
+        ),
+      ),
+    ),
+  ],
+          ),
+
+      
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -99,11 +105,12 @@ class _AlimentosAVencerState extends State<AlimentosAVencer> {
                 fillColor: Colors.white,
                 contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
                 enabledBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.white),
+                  borderSide: const BorderSide(color: Color.fromARGB(255, 232, 232, 232)),
                   borderRadius: BorderRadius.circular(25.0),
                 ),
                 focusedBorder: OutlineInputBorder(
-                  borderSide: const BorderSide(color: Colors.white),
+                  borderSide: const BorderSide(color: Color.fromARGB(255, 199, 199, 199)),
+                  
                   borderRadius: BorderRadius.circular(25.0),
                 ),
               ),
@@ -156,8 +163,8 @@ class _AlimentosAVencerState extends State<AlimentosAVencer> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.0),
             border: Border.all(
-              color: Colors.grey,
-              width: 0.5,
+              color: Color.fromARGB(172, 157, 157, 157),
+              width: 0.7,
             ),
           ),
           margin: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
