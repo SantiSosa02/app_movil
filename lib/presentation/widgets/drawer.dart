@@ -1,3 +1,4 @@
+import 'package:app_movil/presentation/screens/alimentos_a_vencer_screen.dart';
 import 'package:app_movil/presentation/screens/food_screen.dart';
 import 'package:app_movil/presentation/screens/login_screen.dart';
 import 'package:app_movil/presentation/screens/home_screen.dart';
@@ -118,14 +119,14 @@ class MenuDrawer extends StatelessWidget {
                 color: Colors.white,
               ),
               title: const Text(
-                "Cercanos a vencer",
+                "Próximos a vencer",
                 style: TextStyle(color: Colors.white),
               ),
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
+                    builder: (context) => const AlimentosAVencer(),
                   ),
                 );
               },

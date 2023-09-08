@@ -1,7 +1,9 @@
+import 'dart:io';
+
 import 'package:app_movil/datos/foods_list.dart';
 import 'package:app_movil/dominio/models/food.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart'; 
+import 'package:intl/intl.dart';
 
 import '../widgets/app_bar.dart';
 
@@ -13,9 +15,17 @@ class AlimentosAVencer extends StatefulWidget {
 }
 
 class _AlimentosAVencerState extends State<AlimentosAVencer> {
-  List<Food> filterItems = foods;
- // List<Map<String, dynamic>> alimentos =  [
-    
+  final TextEditingController _searchController = TextEditingController();
+
+  List<Food> alimentosProximosAVencer = [];
+  List<Food> filterItems = [];
+
+  @override
+  void initState() {
+    super.initState();
+    alimentosProximosAVencer = obtenerAlimentosProximosAVencer();
+    filterItems = alimentosProximosAVencer;
+  }
 
   List<Food> obtenerAlimentosProximosAVencer() {
     DateTime today = DateTime.now();
@@ -23,52 +33,165 @@ class _AlimentosAVencerState extends State<AlimentosAVencer> {
 
     return foods.where((food) {
       DateTime expDate = food.expDate;
-      return expDate.isBefore(tenDaysFromNow) &&
-          expDate.isAfter(today);
+      return expDate.isBefore(tenDaysFromNow) && expDate.isAfter(today);
     }).toList();
+  }
+
+  void searchItem(String text) {
+    setState(() {
+      filterItems = alimentosProximosAVencer
+          .where((i) => i.name.toLowerCase().contains(text.toLowerCase()))
+          .toList();
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Food> alimentosProximosAVencer = obtenerAlimentosProximosAVencer();
-
     return Scaffold(
       appBar: const AppBarMenu(title: "NutriSabor"),
       body: Column(
         children: [
-          const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: Text(
-              'Alimentos próximos a vencer',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+          Stack(
+            children: [
+              // Imagen de fondo
+              Image.asset(
+                'assets/images/vencimiento.png',
+                fit: BoxFit.cover,
+                height: 180.0,
+                width: double.infinity,
+              ),
+            
+              Padding(
+                padding: const EdgeInsets.all(2.0),
+                child: Container(
+                  height: 180.0,
+                  alignment: Alignment.center,
+                  child: const Text(
+                    'Alimentos próximos a vencer',
+                    style: TextStyle(
+                      fontSize: 30.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                      shadows: <Shadow>[
+                        Shadow(
+                          offset: Offset(0.0, 5.0),
+                          blurRadius: 45.0,
+                          color: Color.fromARGB(255, 129, 129, 129),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              onChanged: searchItem,
+              controller: _searchController,
+              decoration: InputDecoration(
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                labelText: 'Buscar alimentos',
+                prefixIcon: const Icon(Icons.search),
+                filled: true,
+                fillColor: Colors.white,
+                contentPadding: const EdgeInsets.symmetric(vertical: 10.0),
+                enabledBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.white),
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: const BorderSide(color: Colors.white),
+                  borderRadius: BorderRadius.circular(25.0),
+                ),
               ),
             ),
           ),
           Expanded(
             child: ListView.builder(
-              itemCount: alimentosProximosAVencer.length,
+              itemCount: filterItems.length,
               itemBuilder: (BuildContext context, int index) {
-                //Food food = alimentosProximosAVencer[index];
-                return Card(
-                  elevation: 4,
-                  margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: ListTile(
-                    title: Text(
-                      foods[index].name,
-                      style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                return GestureDetector(
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text('${filterItems[index].name}'),
+                content: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Image.file(
+                      File(filterItems[index].image),
+                      height: 150,
+                      width: 200,
+                      fit: BoxFit.cover,
                     ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('Cantidad: ${foods[index].quantity}'),
-                        Text('Fecha de vencimiento: ${DateFormat('dd/MM/yyyy').format(foods[index].expDate)}',
-                         style: const TextStyle(color: Colors.red) ,),
-                      ],
+                    const SizedBox(height: 20),
+                    Text('Nombre: ${filterItems[index].name}'),
+                    Text('Descripción: ${filterItems[index].description}'),
+                    Text('Cantidad: ${filterItems[index].quantity}'),
+                    Text(
+                      'Fecha de vencimiento: ${DateFormat('yyyy/MM/dd').format(filterItems[index].expDate)}',
+                      style: TextStyle(
+                      color:Colors.red),
                     ),
+                  ],
+                ),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('Cerrar'),
                   ),
-                );
+                ],
+              );
+            },
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            border: Border.all(
+              color: Colors.grey,
+              width: 0.5,
+            ),
+          ),
+          margin: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Image.file(
+                  File(filterItems[index].image),
+                  height: 65,
+                  width: 65,
+                  fit: BoxFit.cover,
+                ),
+                SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${filterItems[index].name}',
+                      style: TextStyle(
+                          fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      'Fecha de vencimiento: ${DateFormat('yyyy/MM/dd').format(filterItems[index].expDate)}',
+                      style: TextStyle(
+                      color:Colors.red),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
               },
             ),
           ),
@@ -77,3 +200,5 @@ class _AlimentosAVencerState extends State<AlimentosAVencer> {
     );
   }
 }
+
+
